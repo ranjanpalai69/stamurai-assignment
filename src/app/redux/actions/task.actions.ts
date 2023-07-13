@@ -1,6 +1,6 @@
 import { Task } from "@/app/Types/types";
 import { Dispatch } from "redux";
-import { ADD_TASKS, DELETE_TASKS, GET_TASKS } from "../types/task.types";
+import { ADD_TASKS, DELETE_TASKS, EDIT_TASKS, GET_TASKS, } from "../types/task.types";
 
 
 
@@ -35,5 +35,15 @@ export const deleteTask=(id:string)=>{
     return { type:DELETE_TASKS,payload:filteredTasks}
 }
 
+export const editTask=(updatedTask:Task)=>{
 
+    const storedTasks = localStorage.getItem("tasks");
+    let res: Task[] | [] = storedTasks ? JSON.parse(storedTasks) as Task[] : [];
+    
+    let filteredTasks = res.map((task) =>updatedTask.id===task.id?updatedTask:task);
+    
+    localStorage.setItem("tasks", JSON.stringify(filteredTasks));
+
+    return { type:EDIT_TASKS,payload:filteredTasks}
+}
 

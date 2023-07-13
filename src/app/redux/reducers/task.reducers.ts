@@ -1,5 +1,5 @@
 import { Task } from "@/app/Types/types";
-import { ADD_TASKS, DELETE_TASKS, GET_TASKS } from "../types/task.types";
+import { ADD_TASKS, DELETE_TASKS, EDIT_TASKS, GET_TASKS } from "../types/task.types";
 
 export interface TaskState {
     tasksList: Task[];
@@ -23,6 +23,11 @@ export interface TaskState {
             }
         }
         case DELETE_TASKS:{
+            return {
+                tasksList:[...payload]
+            }
+        }
+        case EDIT_TASKS:{
             return {
                 tasksList:[...payload]
             }
