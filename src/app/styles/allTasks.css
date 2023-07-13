@@ -1,0 +1,50 @@
+.allTasks{
+    width: 80%;
+    margin: 35px auto;
+    padding: 18px 20px;
+    box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+}
+
+.add-task-btn{
+    display: inline-block;
+    width: 20%;
+    
+}
+
+.task-container{
+    width: 100%;
+    margin: 15px 0px;
+    padding: 12px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px 0px;
+}
+
+.singleTask{
+    border: 1px solid green;
+    padding: 4px 20px;
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+    border-radius: 3px;
+}
+
+.task-title{
+    font-size: 25px;
+}
+.task-desc{
+    margin: 10px 0px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 21px;
+    color: grey;
+}
+.func-btn>*{
+    display: inline;
+
+}
+.func-btn{
+    margin: 10px 0px;
+    width: 15%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    
+}
