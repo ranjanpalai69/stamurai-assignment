@@ -1,17 +1,18 @@
 import { Badge, Button, FormControl, FormLabel, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Text, useToast } from '@chakra-ui/react';
 import {AddIcon,DeleteIcon,EditIcon} from "@chakra-ui/icons";
 import {useDispatch,useSelector} from "react-redux"
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent,  useState } from 'react';
 import "../styles/allTasks.css";
 import { Task } from '../Types/types';
 import { INotFound } from './NotFound';
-import { addTask, deleteTask } from '../redux/actions/task.actions';
+import { addTask, deleteTask, editTask, getTasks } from '../redux/actions/task.actions';
 
 const AllTasks = ({modalWork,initialRef,finalRef}:INotFound) => {
 
-    const tasksList = useSelector((state: any) => state.tasksList);
-    const toast = useToast();
-    const dispatch = useDispatch();
+     
+ const tasksList = useSelector((state: any) => state.tasksList);
+ const toast = useToast();
+ const dispatch = useDispatch();
 
    const[task,setTask]=useState({
    id:Math.random()+Date.now().toString(),
@@ -20,8 +21,23 @@ const AllTasks = ({modalWork,initialRef,finalRef}:INotFound) => {
    status:"To Do"
  });
 
+ const[editedTask,setEditedTask]=useState(
+    {
+        id:"",
+        title:"",
+        description:"",
+        status:""
+      }
+ )
+
+
+
  const handleChange=(event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>)=>{
     setTask({...task,[event.target.name]:event.target.value})
+ }
+
+ const editHandleChange=(event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>)=>{
+    setEditedTask({...editedTask,[event.target.name]:event.target.value})
  }
 
 //  dispatching addtask action 
@@ -64,6 +80,37 @@ const AllTasks = ({modalWork,initialRef,finalRef}:INotFound) => {
       })
 }
 
+//  dispatching Edit action 
+
+
+const handleEditTask=(id:string)=>{
+
+const result = tasksList.find((task:Task)=>task.id === id);
+
+setEditedTask(result);
+   
+}
+
+const handleUpdateTask=(editedTask:Task)=>{
+    dispatch(editTask(editedTask));
+    setEditedTask({
+        id:"",
+        title:"",
+        description:"",
+        status:""
+      })
+    return toast({
+        title: 'Changes Saved..',
+        description: "Task Details Updated..",
+        status: 'success',
+        duration: 2000,
+        isClosable: true,
+      })
+}
+
+console.log(editedTask,"edit");
+
+
   return (
     <div className='allTasks'>
           <Button className='add-task-btn' rightIcon={<AddIcon />} colorScheme='teal' variant='outline' onClick={modalWork.onOpen}>
@@ -80,7 +127,7 @@ const AllTasks = ({modalWork,initialRef,finalRef}:INotFound) => {
               >
                 <ModalOverlay />
                 <ModalContent>
-                  <ModalHeader>Enter Your Details</ModalHeader>
+                  <ModalHeader>Enter Task Details</ModalHeader>
                   <ModalCloseButton />
                   <ModalBody pb={6}>
                     <FormControl isRequired >
@@ -156,6 +203,7 @@ const AllTasks = ({modalWork,initialRef,finalRef}:INotFound) => {
                     colorScheme='cyan'
                     aria-label='Edit task'
                    icon={<EditIcon />}
+                   onClick={()=>handleEditTask(task.id)}
 />
                   <IconButton
                      variant='outline'
@@ -169,6 +217,68 @@ const AllTasks = ({modalWork,initialRef,finalRef}:INotFound) => {
       })
      }
    </div>
+   <Modal
+                initialFocusRef={initialRef}
+                finalFocusRef={finalRef}
+                isOpen={editedTask.id || editedTask.title ?true:false}
+                onClose={modalWork.onClose}
+                isCentered={true}
+              >
+                <ModalOverlay />
+                <ModalContent>
+                  <ModalHeader>Edit Your Task</ModalHeader>
+                  <ModalCloseButton />
+                  <ModalBody pb={6}>
+                    <FormControl isRequired >
+                      <FormLabel>Title</FormLabel>
+                      <Input name="title" value={editedTask.title} 
+                        
+                        ref={initialRef}
+                        
+                        placeholder="Enter Title"
+                        onChange={editHandleChange}
+                       
+                      />
+                    </FormControl>
+
+                    <FormControl mt={4} isRequired >
+                      <FormLabel>description</FormLabel>
+                      <Input 
+                        name="description" value={editedTask.description}
+                        
+                        placeholder="Enter description"
+                        onChange={editHandleChange}
+                        
+                      />
+                    </FormControl>
+                    <FormControl mt={4}>
+                      <FormLabel>Choose an option:</FormLabel>
+                      <Select
+                        
+                       name='status' value={editedTask.status}
+                        placeholder="select status of task"
+                        onChange={editHandleChange}
+                      >
+                        <option value="To Do">To Do</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                      </Select>
+                    </FormControl>
+                  </ModalBody>
+
+                  <ModalFooter>
+                    <Button colorScheme="blue" mr={3} onClick={()=>handleUpdateTask(editedTask)} >
+                      Save Changes
+                    </Button>
+                    <Button onClick={()=>setEditedTask({id:"",
+        title:"",
+        description:"",
+        status:""
+
+                    })}>Cancel</Button>
+                  </ModalFooter>
+                </ModalContent>
+              </Modal>
     </div>
   )
 }
