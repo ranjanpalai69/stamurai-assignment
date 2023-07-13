@@ -1,5 +1,5 @@
 import { Button, FormControl, FormLabel, Heading, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, useToast } from '@chakra-ui/react';
-import "../styles/NotFound.css";
+import "../styles/notFound.css";
 import * as image from "../../../public/no-data-img.png"
 
 import Image from 'next/image';
