@@ -1,0 +1,33 @@
+
+.notFound {
+    width: 60%;
+    margin: auto;
+    margin-bottom: 60px;
+    margin-top: 30px;
+    height: auto;
+    text-align: center;
+  }
+  
+  .notFound > img {
+    height: 500px;
+    width: 70%;
+  
+    margin: auto;
+  }
+  
+  .notFound > button {
+    background-color: #ff5697;
+    color: aliceblue;
+    width: 20%;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+  
+    font-size: large;
+    margin: 15px 0px;
+  }
+  
+  .notFound > button:hover {
+    background-color: #fc2779;
+    color: azure;
+  }

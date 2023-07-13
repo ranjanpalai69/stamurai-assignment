@@ -4,14 +4,14 @@ import { ADD_TASKS, DELETE_TASKS, GET_TASKS } from "../types/task.types";
 
 
 
-export const getTasks=()=>(dispatch:Dispatch)=>{
+export const getTasks=()=>{
     const storedTasks = localStorage.getItem("tasks");
     let res: Task[] | [] = storedTasks ? JSON.parse(storedTasks) as Task[] : [];
 
-    dispatch({type:GET_TASKS,payload:res});
+    return {type:GET_TASKS,payload:res};
 }
 
-export const addTask=(task:Task)=>(dispatch:Dispatch<any>)=>{
+export const addTask=(task:Task)=>{
 
     const storedTasks = localStorage.getItem("tasks");
     let res: Task[] | [] = storedTasks ? JSON.parse(storedTasks) as Task[] : [];
@@ -19,11 +19,11 @@ export const addTask=(task:Task)=>(dispatch:Dispatch<any>)=>{
     res.push(task);
     localStorage.setItem("tasks", JSON.stringify(res));
 
-    dispatch({ type:ADD_TASKS,payload:res})
+    return { type:ADD_TASKS,payload:res}
 }
 
 
-export const deleteTask=(id:string)=>(dispatch:Dispatch<any>)=>{
+export const deleteTask=(id:string)=>{
 
     const storedTasks = localStorage.getItem("tasks");
     let res: Task[] | [] = storedTasks ? JSON.parse(storedTasks) as Task[] : [];
@@ -32,7 +32,7 @@ export const deleteTask=(id:string)=>(dispatch:Dispatch<any>)=>{
     
     localStorage.setItem("tasks", JSON.stringify(filteredTasks));
 
-    dispatch({ type:DELETE_TASKS,payload:filteredTasks})
+    return { type:DELETE_TASKS,payload:filteredTasks}
 }
 
 
